@@ -10,7 +10,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    php-teste: 
+    java-teste: 
       runs-on: ubuntu-latest
       steps:
             - uses: actions/checkout@v3
@@ -23,7 +23,7 @@ jobs:
       runs-on: ubuntu-latest
       environment:
               name: api
-      needs: php-teste
+      needs: java-teste
       steps:
             - name: Repo Checkout
               uses: actions/checkout@v3
