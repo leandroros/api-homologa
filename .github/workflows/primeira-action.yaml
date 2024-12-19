@@ -19,7 +19,7 @@ jobs:
               run: echo tudo certo
                         
               
-    deploy-site:
+    deploy-api:
       runs-on: ubuntu-latest
       environment:
               name: api
