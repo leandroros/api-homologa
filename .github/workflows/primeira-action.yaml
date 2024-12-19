@@ -27,7 +27,7 @@ jobs:
       - name: Checkout do Repositório
         uses: actions/checkout@v3
 
-      - name: Deploy do Site
+      - name: Deploy da API
         uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.KEY_SECRETORIGINAL }}
