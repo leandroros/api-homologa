@@ -1,6 +1,7 @@
-name: "CI (Atualização Api-Dev-epsoft): GitAction"
+name: "CI (Atualização Api-Dev): GitAction"
 
 on:
+  # Ativa o workflow em push ou pull request na branch main
   push:
     branches: [ "main" ]
   pull_request:
@@ -26,18 +27,14 @@ jobs:
       - name: Checkout do Repositório
         uses: actions/checkout@v3
 
-      - name: Parar o Container Existente
-        run: |
-          ssh -i ${{ secrets.KEY_SECRETORIGINAL }} ${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }} -p ${{ vars.REMOTE_PORT }} << 'EOF'
-          docker ps -q --filter "name=Api_atividades_dev" | grep -q . && docker stop Api_atividades_dev
-          EOF
-
-      - name: Substituir o Arquivo .jar
-        run: |
-          scp -i ${{ secrets.KEY_SECRETORIGINAL }} -P ${{ vars.REMOTE_PORT }} /home/ubuntu/volumes/homologacao/api/analytics.jar ${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }}:/home/ubuntu/volumes/homologacao/api
-
-      - name: Iniciar o Container com Novo .jar
-        run: |
-          ssh -i ${{ secrets.KEY_SECRETORIGINAL }} ${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }} -p ${{ vars.REMOTE_PORT }} << 'EOF'
-          docker start Api_atividades_dev
-          EOF
+      - name: Deploy do Site
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.KEY_SECRETORIGINAL }}
+          # Define os argumentos adicionais do rsync, se necessário
+          # ARGS: "-rlgoDzvc --delete"
+          SOURCE: "./"
+          REMOTE_HOST: ${{ vars.REMOTE_HOST }}
+          REMOTE_USER: ${{ vars.REMOTE_USER }}
+          REMOTE_PORT: ${{ vars.REMOTE_PORT }}
+          TARGET: ${{ vars.TARGET }}
