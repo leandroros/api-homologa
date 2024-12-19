@@ -34,7 +34,7 @@ jobs:
 
       - name: Substituir o Arquivo .jar
         run: |
-          scp -i ${{ secrets.KEY_SECRETORIGINAL }} -P ${{ vars.REMOTE_PORT }} ./path/to/new-file.jar ${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }}:/path/to/container/directory
+          scp -i ${{ secrets.KEY_SECRETORIGINAL }} -P ${{ vars.REMOTE_PORT }} /home/ubuntu/volumes/homologacao/api/analytics.jar ${{ vars.REMOTE_USER }}@${{ vars.REMOTE_HOST }}:/home/ubuntu/volumes/homologacao/api
 
       - name: Iniciar o Container com Novo .jar
         run: |
